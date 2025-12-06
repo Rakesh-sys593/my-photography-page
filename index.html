@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rakesh Thakur | Photography Portfolio</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Great+Vibes&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        dark: {
+                            900: '#121212',
+                            800: '#1e1e1e',
+                            700: '#2d2d2d',
+                        },
+                        gray: {
+                            text: '#b0b0b0',
+                            heading: '#e0e0e0'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        cursive: ['Great Vibes', 'cursive'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Styles */
+        body {
+            background-color: #121212;
+            color: #b0b0b0;
+            overflow-x: hidden; /* Prevent horizontal scrollbar during animations */
+        }
+
+        /* Scrollbar customization */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #121212;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        /* Scroll Reveal Animation Classes */
+        .reveal {
+            opacity: 0;
+            /* Start lower for a dramatic "push from bottom" effect */
+            transform: translateY(100px); 
+            transition: opacity 1s ease, transform 1s cubic-bezier(0.2, 1, 0.3, 1);
+            will-change: opacity, transform; /* Optimization hint for browser */
+        }
+        
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Staggered delays for grid items */
+        .delay-100 { transition-delay: 100ms; }
+        .delay-200 { transition-delay: 200ms; }
+        .delay-300 { transition-delay: 300ms; }
+
+        /* Image Hover Effects */
+        .photo-card {
+            break-inside: avoid;
+            margin-bottom: 1.5rem;
+            position: relative;
+            border-radius: 1rem;
+            overflow: hidden;
+            cursor: zoom-in;
+            /* Hardware acceleration to prevent jitter */
+            transform: translateZ(0); 
+        }
+        
+        .photo-card img {
+            transition: transform 0.5s ease;
+            width: 100%;
+            display: block;
+            will-change: transform;
+        }
+        
+        .photo-card:hover img {
+            transform: scale(1.03);
+        }
+
+        .overlay {
+            background: rgba(0,0,0,0.4);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .photo-card:hover .overlay {
+            opacity: 1;
+        }
+
+        /* --- MODAL LOGIC --- */
+        
+        /* The Modal Overlay */
+        .modal-overlay {
+            opacity: 0;
+            visibility: hidden;
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+            background-color: rgba(0, 0, 0, 0.8); /* Slightly darker for better contrast */
+            transition: opacity 0.4s ease, visibility 0.4s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+            padding: 2rem;
+            overflow: hidden;
+        }
+
+        /* The Blurred Background Effect */
+        .modal-overlay::before {
+            content: '';
+            position: absolute;
+            inset: -20px; 
+            background-image: var(--bg-img);
+            background-size: cover;
+            background-position: center;
+            filter: blur(8px) brightness(0.3); /* Reduced blur radius for performance */
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            will-change: opacity;
+        }
+
+        .modal-overlay:target {
+            opacity: 1;
+            visibility: visible;
+            pointer-events: auto;
+        }
+        
+        .modal-overlay:target::before {
+            opacity: 1;
+        }
+
+        /* MODAL LAYOUT */
+
+        /* Desktop Layout (Default) */
+        .modal-img-wrapper {
+            order: 1;
+            z-index: 20;
+            flex-shrink: 1;
+            min-width: 0;
+            max-width: 75vw;
+            
+            /* Modal Image Animation: Push from bottom */
+            transform: translateY(50vh) scale(0.9); 
+            opacity: 0;
+            
+            /* Optimized transition: Removed 'all', animating specific properties */
+            transition: transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.6s ease;
+            will-change: transform, opacity;
+            position: relative;
+        }
+        
+        .modal-img-wrapper img {
+            max-height: 85vh;
+            width: auto;
+            height: auto;
+            max-width: 100%;
+            display: block;
+            border-radius: 0.75rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-text-wrapper {
+            order: 2;
+            z-index: 10;
+            width: 20rem;
+            flex-shrink: 0;
+            /* Removed backdrop-filter to fix LAG. Used solid color instead. */
+            background: #1e1e1e; 
+            
+            /* Initial State: Hidden */
+            margin-left: -20rem; 
+            opacity: 0;
+            transform: scale(0.95);
+            
+            transition: margin-left 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s, 
+                        opacity 0.4s ease 0.2s, 
+                        transform 0.4s ease 0.2s;
+            will-change: margin-left, opacity, transform;
+            
+            display: flex;
+            flex-direction: column;
+            max-height: 80vh;
+            overflow-y: auto;
+            border-radius: 1rem;
+            border: 1px solid #333;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+            padding: 2rem;
+        }
+
+        /* Active State (:target) */
+        .modal-overlay:target .modal-text-wrapper {
+            margin-left: 1.5rem;
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* Active State: Image Adjustment */
+        .modal-overlay:target .modal-img-wrapper {
+            max-width: calc(100vw - 26rem);
+            /* End State */
+            transform: translateY(0) scale(1);
+            opacity: 1;
+        }
+
+        /* CSS-Only Mobile Menu (Checkbox Hack) */
+        #menu-toggle:checked ~ #mobile-menu {
+            display: block;
+        }
+
+        /* CSS-Only Like Button */
+        .like-checkbox:checked + label i {
+            font-weight: 900;
+            color: #ef4444;
+        }
+        .like-checkbox:checked + label span {
+            color: #ef4444;
+        }
+
+        /* Mobile Responsive Adjustments */
+        @media (max-width: 1024px) {
+            .modal-overlay {
+                flex-direction: column;
+                padding: 1rem;
+            }
+            
+            .modal-img-wrapper {
+                order: 1;
+                max-width: 100% !important;
+                flex-shrink: 0;
+                margin-bottom: -20px;
+                /* Reset transform for mobile simplicity */
+                transform: translateY(50px);
+            }
+            
+            .modal-img-wrapper img {
+                max-height: 50vh;
+                max-width: 100%;
+            }
+
+            .modal-text-wrapper {
+                order: 2;
+                width: 95%;
+                margin-left: 0 !important;
+                margin-top: 0;
+                transform: translateY(20px);
+                opacity: 0;
+            }
+            
+            .modal-overlay:target .modal-text-wrapper {
+                transform: translateY(0);
+                opacity: 1;
+                margin-top: 1rem;
+            }
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-gray-700 selection:text-white">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-dark-900/90 backdrop-blur-sm border-b border-dark-700 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo -->
+                <div class="flex-shrink-0">
+                    <a href="#" class="font-cursive text-4xl text-gray-heading tracking-wide hover:text-white transition-colors">
+                        Rakesh Thakur
+                    </a>
+                </div>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="#about" class="font-cursive text-2xl text-gray-text hover:text-white transition-colors duration-300 tracking-wide">About Me</a>
+                        <a href="#portfolio" class="font-cursive text-2xl text-gray-text hover:text-white transition-colors duration-300 tracking-wide">My Works</a>
+                        <a href="#contact" class="font-cursive text-2xl text-gray-text hover:text-white transition-colors duration-300 tracking-wide">Contact</a>
+                        
+                        <div class="border-l border-dark-700 pl-8 flex space-x-6">
+                            <a href="https://instagram.com" target="_blank" class="text-gray-text hover:text-pink-500 transition-colors duration-300">
+                                <i class="fab fa-instagram text-xl"></i>
+                            </a>
+                            <a href="https://facebook.com" target="_blank" class="text-gray-text hover:text-blue-500 transition-colors duration-300">
+                                <i class="fab fa-facebook text-xl"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mobile menu toggle -->
+                <div class="md:hidden">
+                    <label for="menu-toggle" class="text-gray-text hover:text-white p-2 cursor-pointer">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </label>
+                    <input type="checkbox" id="menu-toggle" class="hidden">
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Panel -->
+        <div id="mobile-menu" class="hidden md:hidden bg-dark-800 border-b border-dark-700">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#about" class="block px-3 py-2 rounded-md font-cursive text-2xl text-gray-text hover:text-white hover:bg-dark-700 tracking-wide">About Me</a>
+                <a href="#portfolio" class="block px-3 py-2 rounded-md font-cursive text-2xl text-gray-text hover:text-white hover:bg-dark-700 tracking-wide">Portfolio</a>
+                <div class="flex space-x-6 px-3 py-4">
+                    <a href="#" class="text-gray-text hover:text-pink-500"><i class="fab fa-instagram text-2xl"></i></a>
+                    <a href="#" class="text-gray-text hover:text-blue-500"><i class="fab fa-facebook text-2xl"></i></a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Wrapper -->
+    <main id="main-content" class="pt-20">
+
+        <!-- Hero Section -->
+        <section id="about" class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-dark-900 reveal">
+            <div class="max-w-7xl mx-auto w-full">
+                <div class="flex flex-col-reverse md:flex-row items-center justify-between gap-12">
+                    <div class="w-full md:w-1/2 space-y-6">
+                        <div class="space-y-2">
+                            <h2 class="text-sm uppercase tracking-[0.2em] text-gray-500 font-semibold">Random PhotoGrapher</h2>
+                            <h1 class="text-5xl md:text-7xl font-cursive text-gray-heading leading-tight py-2">
+                                Capturing moments <br>
+                                <span class="text-gray-500">in their purest form.</span>
+                            </h1>
+                        </div>
+                        <p class="font-cursive text-3xl text-gray-text leading-relaxed max-w-lg tracking-wide">
+                            Hello, I'm Rakesh Thakur. I specialize in portrait and landscape photography. My work is an exploration of light, shadow, and the human condition. I strive to create images that are not just seen, but felt.
+                        </p>
+                        <div class="pt-4">
+                            <a href="#portfolio" class="inline-block border border-gray-600 px-8 py-3 text-sm tracking-widest hover:bg-white hover:text-black hover:border-white transition-all duration-300 rounded">
+                                VIEW WORK
+                            </a>
+                        </div>
+                    </div>
+                    <div class="w-full md:w-1/2 flex justify-center md:justify-end">
+                        <div class="relative w-72 h-72 md:w-96 md:h-96">
+                            <div class="absolute inset-0 border border-gray-700 translate-x-4 translate-y-4 z-0 rounded-2xl"></div>
+                            <img src="image.jpg" alt="Rakesh Thakur" class="relative z-10 w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700 shadow-2xl rounded-2xl">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Portfolio Section -->
+        <section id="portfolio" class="py-24 bg-dark-800">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16 reveal">
+                    <h2 class="text-5xl font-cursive text-gray-heading mb-4">Selected Works</h2>
+                    <div class="w-16 h-0.5 bg-gray-700 mx-auto"></div>
+                </div>
+
+                <div class="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6 p-2">
+                    
+                    <!-- Item 1 -->
+                    <a href="#photo-1" class="photo-card block reveal delay-100">
+                        <img src="Image1.jpg" alt="Mountain" class="rounded-2xl">
+                        <div class="overlay absolute inset-0 flex items-center justify-center rounded-2xl">
+                            <span class="text-white tracking-widest uppercase text-sm border-b border-white pb-1"><i class="fas fa-expand"></i> View</span>
+                        </div>
+                    </a>
+
+                    <!-- Item 2 -->
+                    <a href="#photo-2" class="photo-card block reveal delay-200">
+                        <img src="Image2.jpg" alt="Urban" class="rounded-2xl">
+                        <div class="overlay absolute inset-0 flex items-center justify-center rounded-2xl">
+                            <span class="text-white tracking-widest uppercase text-sm border-b border-white pb-1"><i class="fas fa-expand"></i> View</span>
+                        </div>
+                    </a>
+
+                    <!-- Item 3 -->
+                    <a href="#photo-3" class="photo-card block reveal delay-300">
+                        <img src="Image3.jpg" alt="River" class="rounded-2xl">
+                        <div class="overlay absolute inset-0 flex items-center justify-center rounded-2xl">
+                            <span class="text-white tracking-widest uppercase text-sm border-b border-white pb-1"><i class="fas fa-expand"></i> View</span>
+                        </div>
+                    </a>
+
+                    <!-- Item 4 -->
+                    <a href="#photo-4" class="photo-card block reveal delay-100">
+                        <img src="Image4.jpg" alt="Neon" class="rounded-2xl">
+                        <div class="overlay absolute inset-0 flex items-center justify-center rounded-2xl">
+                            <span class="text-white tracking-widest uppercase text-sm border-b border-white pb-1"><i class="fas fa-expand"></i> View</span>
+                        </div>
+                    </a>
+
+                    <!-- Item 5 -->
+                    <a href="#photo-5" class="photo-card block reveal delay-200">
+                        <img src="Image5.jpg" alt="Portrait" class="rounded-2xl">
+                        <div class="overlay absolute inset-0 flex items-center justify-center rounded-2xl">
+                            <span class="text-white tracking-widest uppercase text-sm border-b border-white pb-1"><i class="fas fa-expand"></i> View</span>
+                        </div>
+                    </a>
+
+                    <!-- Item 6 -->
+                    <a href="#photo-6" class="photo-card block reveal delay-300">
+                        <img src="Image6.jpg" alt="Nature" class="rounded-2xl">
+                        <div class="overlay absolute inset-0 flex items-center justify-center rounded-2xl">
+                            <span class="text-white tracking-widest uppercase text-sm border-b border-white pb-1"><i class="fas fa-expand"></i> View</span>
+                        </div>
+                    </a>
+
+                    <!-- Item 7 -->
+                    <a href="#photo-7" class="photo-card block reveal delay-100">
+                        <img src="Image7.jpg" alt="Mountain" class="rounded-2xl">
+                        <div class="overlay absolute inset-0 flex items-center justify-center rounded-2xl">
+                            <span class="text-white tracking-widest uppercase text-sm border-b border-white pb-1"><i class="fas fa-expand"></i> View</span>
+                        </div>
+                    </a>
+                    <!-- Item 8 -->
+                    <a href="#photo-8" class="photo-card block reveal delay-200">
+                        <img src="Image8.jpg" alt="Mountain" class="rounded-2xl">
+                        <div class="overlay absolute inset-0 flex items-center justify-center rounded-2xl">
+                            <span class="text-white tracking-widest uppercase text-sm border-b border-white pb-1"><i class="fas fa-expand"></i> View</span>
+                        </div>
+                    </a>
+                    <!-- Item 9 -->
+                    <a href="#photo-9" class="photo-card block reveal delay-300">
+                        <img src="Image1.jpg" alt="Mountain" class="rounded-2xl">
+                        <div class="overlay absolute inset-0 flex items-center justify-center rounded-2xl">
+                            <span class="text-white tracking-widest uppercase text-sm border-b border-white pb-1"><i class="fas fa-expand"></i> View</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer id="contact" class="bg-dark-900 border-t border-dark-700 py-12 reveal">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center">
+                <h3 class="text-4xl font-cursive text-white mb-6">Let's Create Together</h3>
+                <div class="flex space-x-8 mb-8">
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors"><i class="fab fa-instagram text-2xl"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors"><i class="fab fa-facebook text-2xl"></i></a>
+                    <a href="#" class="text-gray-400 hover:text-white transition-colors"><i class="far fa-envelope text-2xl"></i></a>
+                </div>
+                
+                <div class="w-full bg-dark-800 p-6 rounded-2xl border border-dark-700 mb-8">
+                    <h4 class="text-center text-gray-400 mb-4 font-cursive text-2xl">Send me your thoughts</h4>
+                    <form action="#" method="POST" class="max-w-md mx-auto">
+                        <textarea name="message" rows="3" class="w-full bg-dark-900 text-gray-300 text-sm p-3 rounded border border-gray-700 focus:outline-none focus:border-gray-500 transition-colors mb-4" placeholder="Share your feedback or inquiries..."></textarea>
+                        <button type="submit" class="w-full bg-gray-700 hover:bg-gray-600 text-white font-medium py-2 rounded transition-colors uppercase tracking-widest text-xs">
+                            Send Feedback
+                        </button>
+                    </form>
+                </div>
+                <p class="text-gray-600 text-sm">© 2025 Rakesh Thakur Photography. All rights reserved.</p>
+            </div>
+        </footer>
+
+    </main>
+
+    <!-- === CSS-ONLY MODALS === -->
+    
+    <!-- Modal 1 -->
+    <div id="photo-1" class="modal-overlay" style="--bg-img: url('Image1.jpg');">
+        <a href="#portfolio" class="absolute inset-0 cursor-default"></a> 
+        <a href="#portfolio" class="absolute top-6 right-6 text-white hover:text-gray-300 z-50"><i class="fas fa-times text-4xl"></i></a>
+        <a href="#photo-2" class="absolute right-4 text-white hover:text-gray-300 z-50 p-4 bg-black/20 hover:bg-black/50 rounded-full backdrop-blur-sm"><i class="fas fa-chevron-right text-3xl"></i></a>
+        
+        <div class="modal-text-wrapper">
+            <h3 class="text-4xl font-cursive text-white mb-4 border-b border-gray-700 pb-2">Highland Mist</h3>
+            <p class="text-gray-400 leading-relaxed mb-6">A serene exploration of mountain solitude.</p>
+            <div class="flex items-center justify-start pt-2">
+                <input type="checkbox" id="like-1" class="like-checkbox hidden">
+                <label for="like-1" class="flex items-center space-x-2 text-gray-500 cursor-pointer hover:text-gray-300 transition-colors">
+                    <i class="far fa-heart text-2xl transition-transform active:scale-90"></i>
+                    <span class="text-xs uppercase tracking-widest">Like</span>
+                </label>
+            </div>
+        </div>
+        <div class="modal-img-wrapper">
+            <img src="Image1.jpg" alt="Mountain">
+        </div>
+    </div>
+
+    <!-- Modal 2 -->
+    <div id="photo-2" class="modal-overlay" style="--bg-img: url('Image2.jpg');">
+        <a href="#portfolio" class="absolute inset-0 cursor-default"></a>
+        <a href="#portfolio" class="absolute top-6 right-6 text-white hover:text-gray-300 z-50"><i class="fas fa-times text-4xl"></i></a>
+        <a href="#photo-3" class="absolute right-4 text-white hover:text-gray-300 z-50 p-4 bg-black/20 hover:bg-black/50 rounded-full backdrop-blur-sm"><i class="fas fa-chevron-right text-3xl"></i></a>
+        
+        <div class="modal-text-wrapper">
+            <h3 class="text-4xl font-cursive text-white mb-4 border-b border-gray-700 pb-2">City Soul</h3>
+            <p class="text-gray-400 leading-relaxed mb-6">Urban complexity captured in a single glance.</p>
+            <div class="flex items-center justify-start pt-2">
+                <input type="checkbox" id="like-2" class="like-checkbox hidden">
+                <label for="like-2" class="flex items-center space-x-2 text-gray-500 cursor-pointer hover:text-gray-300 transition-colors">
+                    <i class="far fa-heart text-2xl transition-transform active:scale-90"></i>
+                    <span class="text-xs uppercase tracking-widest">Like</span>
+                </label>
+            </div>
+        </div>
+        <div class="modal-img-wrapper">
+            <img src="Image2.jpg" alt="Urban">
+        </div>
+    </div>
+
+    <!-- Modal 3 -->
+    <div id="photo-3" class="modal-overlay" style="--bg-img: url('Image3.jpg');">
+        <a href="#portfolio" class="absolute inset-0 cursor-default"></a>
+        <a href="#portfolio" class="absolute top-6 right-6 text-white hover:text-gray-300 z-50"><i class="fas fa-times text-4xl"></i></a>
+        <a href="#photo-4" class="absolute right-4 text-white hover:text-gray-300 z-50 p-4 bg-black/20 hover:bg-black/50 rounded-full backdrop-blur-sm"><i class="fas fa-chevron-right text-3xl"></i></a>
+        
+        <div class="modal-text-wrapper">
+            <h3 class="text-4xl font-cursive text-white mb-4 border-b border-gray-700 pb-2">River Path</h3>
+            <p class="text-gray-400 leading-relaxed mb-6">The raw power of water carving through stone.</p>
+            <div class="flex items-center justify-start pt-2">
+                <input type="checkbox" id="like-3" class="like-checkbox hidden">
+                <label for="like-3" class="flex items-center space-x-2 text-gray-500 cursor-pointer hover:text-gray-300 transition-colors">
+                    <i class="far fa-heart text-2xl transition-transform active:scale-90"></i>
+                    <span class="text-xs uppercase tracking-widest">Like</span>
+                </label>
+            </div>
+        </div>
+        <div class="modal-img-wrapper">
+            <img src="Image3.jpg" alt="River">
+        </div>
+    </div>
+
+    <!-- Modal 4 -->
+    <div id="photo-4" class="modal-overlay" style="--bg-img: url('https://images.unsplash.com/photo-1500462918059-b1a0cb512f1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=1400&q=80');">
+        <a href="#portfolio" class="absolute inset-0 cursor-default"></a>
+        <a href="#portfolio" class="absolute top-6 right-6 text-white hover:text-gray-300 z-50"><i class="fas fa-times text-4xl"></i></a>
+        <a href="#photo-5" class="absolute right-4 text-white hover:text-gray-300 z-50 p-4 bg-black/20 hover:bg-black/50 rounded-full backdrop-blur-sm"><i class="fas fa-chevron-right text-3xl"></i></a>
+        
+        <div class="modal-text-wrapper">
+            <h3 class="text-4xl font-cursive text-white mb-4 border-b border-gray-700 pb-2">Neon Nights</h3>
+            <p class="text-gray-400 leading-relaxed mb-6">Neon lights reflecting the pulse of the night.</p>
+            <div class="flex items-center justify-start pt-2">
+                <input type="checkbox" id="like-4" class="like-checkbox hidden">
+                <label for="like-4" class="flex items-center space-x-2 text-gray-500 cursor-pointer hover:text-gray-300 transition-colors">
+                    <i class="far fa-heart text-2xl transition-transform active:scale-90"></i>
+                    <span class="text-xs uppercase tracking-widest">Like</span>
+                </label>
+            </div>
+        </div>
+        <div class="modal-img-wrapper">
+            <img src="https://images.unsplash.com/photo-1500462918059-b1a0cb512f1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=1400&q=80" alt="Neon">
+        </div>
+    </div>
+
+    <!-- Modal 5 -->
+    <div id="photo-5" class="modal-overlay" style="--bg-img: url('https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&h=600&q=80');">
+        <a href="#portfolio" class="absolute inset-0 cursor-default"></a>
+        <a href="#portfolio" class="absolute top-6 right-6 text-white hover:text-gray-300 z-50"><i class="fas fa-times text-4xl"></i></a>
+        <a href="#photo-6" class="absolute right-4 text-white hover:text-gray-300 z-50 p-4 bg-black/20 hover:bg-black/50 rounded-full backdrop-blur-sm"><i class="fas fa-chevron-right text-3xl"></i></a>
+        
+        <div class="modal-text-wrapper">
+            <h3 class="text-4xl font-cursive text-white mb-4 border-b border-gray-700 pb-2">Silent Gaze</h3>
+            <p class="text-gray-400 leading-relaxed mb-6">Intimate details that often go unnoticed.</p>
+            <div class="flex items-center justify-start pt-2">
+                <input type="checkbox" id="like-5" class="like-checkbox hidden">
+                <label for="like-5" class="flex items-center space-x-2 text-gray-500 cursor-pointer hover:text-gray-300 transition-colors">
+                    <i class="far fa-heart text-2xl transition-transform active:scale-90"></i>
+                    <span class="text-xs uppercase tracking-widest">Like</span>
+                </label>
+            </div>
+        </div>
+        <div class="modal-img-wrapper">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&h=600&q=80" alt="Portrait">
+        </div>
+    </div>
+
+    <!-- Modal 6 -->
+    <div id="photo-6" class="modal-overlay" style="--bg-img: url('https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?ixlib=rb-4.0.3&auto=format&fit=crop&w=900&h=900&q=80');">
+        <a href="#portfolio" class="absolute inset-0 cursor-default"></a>
+        <a href="#portfolio" class="absolute top-6 right-6 text-white hover:text-gray-300 z-50"><i class="fas fa-times text-4xl"></i></a>
+        <a href="#photo-1" class="absolute right-4 text-white hover:text-gray-300 z-50 p-4 bg-black/20 hover:bg-black/50 rounded-full backdrop-blur-sm"><i class="fas fa-chevron-right text-3xl"></i></a>
+        
+        <div class="modal-text-wrapper">
+            <h3 class="text-4xl font-cursive text-white mb-4 border-b border-gray-700 pb-2">Green Leaf</h3>
+            <p class="text-gray-400 leading-relaxed mb-6">The delicate balance of nature's design.</p>
+            <div class="flex items-center justify-start pt-2">
+                <input type="checkbox" id="like-6" class="like-checkbox hidden">
+                <label for="like-6" class="flex items-center space-x-2 text-gray-500 cursor-pointer hover:text-gray-300 transition-colors">
+                    <i class="far fa-heart text-2xl transition-transform active:scale-90"></i>
+                    <span class="text-xs uppercase tracking-widest">Like</span>
+                </label>
+            </div>
+        </div>
+        <div class="modal-img-wrapper">
+            <img src="https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?ixlib=rb-4.0.3&auto=format&fit=crop&w=900&h=900&q=80" alt="Nature">
+        </div>
+    </div>
+
+    <!-- Lightweight Script for Scroll Animations -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        // Optional: Unobserve if you want the animation to happen only once
+                        // observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            const revealElements = document.querySelectorAll('.reveal');
+            revealElements.forEach(el => observer.observe(el));
+        });
+    </script>
+</body>
+</html>
