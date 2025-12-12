@@ -4,14 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rakesh Thakur | Photography Portfolio</title>
+    <link rel="stylesheet" href="style.css">
     
-    <!-- Tailwind CSS -->
+    
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- FontAwesome for Icons -->
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Google Fonts -->
+    
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Great+Vibes&display=swap" rel="stylesheet">
 
     <script>
@@ -38,249 +39,6 @@
         }
     </script>
 
-    <style>
-        /* Custom Styles */
-        body {
-            background-color: #121212;
-            color: #b0b0b0;
-            overflow-x: hidden; /* Prevent horizontal scrollbar during animations */
-        }
-
-        /* Scrollbar customization */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #121212;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #333;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #555;
-        }
-
-        /* Scroll Reveal Animation Classes */
-        .reveal {
-            opacity: 0;
-            /* Start lower for a dramatic "push from bottom" effect */
-            transform: translateY(100px); 
-            transition: opacity 1s ease, transform 1s cubic-bezier(0.2, 1, 0.3, 1);
-            will-change: opacity, transform; /* Optimization hint for browser */
-        }
-        
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Staggered delays for grid items */
-        .delay-100 { transition-delay: 100ms; }
-        .delay-200 { transition-delay: 200ms; }
-        .delay-300 { transition-delay: 300ms; }
-
-        /* Image Hover Effects */
-        .photo-card {
-            break-inside: avoid;
-            margin-bottom: 1.5rem;
-            position: relative;
-            border-radius: 1rem;
-            overflow: hidden;
-            cursor: zoom-in;
-            /* Hardware acceleration to prevent jitter */
-            transform: translateZ(0); 
-        }
-        
-        .photo-card img {
-            transition: transform 0.5s ease;
-            width: 100%;
-            display: block;
-            will-change: transform;
-        }
-        
-        .photo-card:hover img {
-            transform: scale(1.03);
-        }
-
-        .overlay {
-            background: rgba(0,0,0,0.4);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        
-        .photo-card:hover .overlay {
-            opacity: 1;
-        }
-
-        /* --- MODAL LOGIC --- */
-        
-        /* The Modal Overlay */
-        .modal-overlay {
-            opacity: 0;
-            visibility: hidden;
-            position: fixed;
-            inset: 0;
-            z-index: 100;
-            background-color: rgba(0, 0, 0, 0.8); /* Slightly darker for better contrast */
-            transition: opacity 0.4s ease, visibility 0.4s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            pointer-events: none;
-            padding: 2rem;
-            overflow: hidden;
-        }
-
-        /* The Blurred Background Effect */
-        .modal-overlay::before {
-            content: '';
-            position: absolute;
-            inset: -20px; 
-            background-image: var(--bg-img);
-            background-size: cover;
-            background-position: center;
-            filter: blur(8px) brightness(0.3); /* Reduced blur radius for performance */
-            z-index: -1;
-            opacity: 0;
-            transition: opacity 0.5s ease;
-            will-change: opacity;
-        }
-
-        .modal-overlay:target {
-            opacity: 1;
-            visibility: visible;
-            pointer-events: auto;
-        }
-        
-        .modal-overlay:target::before {
-            opacity: 1;
-        }
-
-        /* MODAL LAYOUT */
-
-        /* Desktop Layout (Default) */
-        .modal-img-wrapper {
-            order: 1;
-            z-index: 20;
-            flex-shrink: 1;
-            min-width: 0;
-            max-width: 75vw;
-            
-            /* Modal Image Animation: Push from bottom */
-            transform: translateY(50vh) scale(0.9); 
-            opacity: 0;
-            
-            /* Optimized transition: Removed 'all', animating specific properties */
-            transition: transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.6s ease;
-            will-change: transform, opacity;
-            position: relative;
-        }
-        
-        .modal-img-wrapper img {
-            max-height: 85vh;
-            width: auto;
-            height: auto;
-            max-width: 100%;
-            display: block;
-            border-radius: 0.75rem;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-        }
-
-        .modal-text-wrapper {
-            order: 2;
-            z-index: 10;
-            width: 20rem;
-            flex-shrink: 0;
-            /* Removed backdrop-filter to fix LAG. Used solid color instead. */
-            background: #1e1e1e; 
-            
-            /* Initial State: Hidden */
-            margin-left: -20rem; 
-            opacity: 0;
-            transform: scale(0.95);
-            
-            transition: margin-left 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s, 
-                        opacity 0.4s ease 0.2s, 
-                        transform 0.4s ease 0.2s;
-            will-change: margin-left, opacity, transform;
-            
-            display: flex;
-            flex-direction: column;
-            max-height: 80vh;
-            overflow-y: auto;
-            border-radius: 1rem;
-            border: 1px solid #333;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
-            padding: 2rem;
-        }
-
-        /* Active State (:target) */
-        .modal-overlay:target .modal-text-wrapper {
-            margin-left: 1.5rem;
-            opacity: 1;
-            transform: scale(1);
-        }
-
-        /* Active State: Image Adjustment */
-        .modal-overlay:target .modal-img-wrapper {
-            max-width: calc(100vw - 26rem);
-            /* End State */
-            transform: translateY(0) scale(1);
-            opacity: 1;
-        }
-
-        /* CSS-Only Mobile Menu (Checkbox Hack) */
-        #menu-toggle:checked ~ #mobile-menu {
-            display: block;
-        }
-
-        /* CSS-Only Like Button */
-        .like-checkbox:checked + label i {
-            font-weight: 900;
-            color: #ef4444;
-        }
-        .like-checkbox:checked + label span {
-            color: #ef4444;
-        }
-
-        /* Mobile Responsive Adjustments */
-        @media (max-width: 1024px) {
-            .modal-overlay {
-                flex-direction: column;
-                padding: 1rem;
-            }
-            
-            .modal-img-wrapper {
-                order: 1;
-                max-width: 100% !important;
-                flex-shrink: 0;
-                margin-bottom: -20px;
-                /* Reset transform for mobile simplicity */
-                transform: translateY(50px);
-            }
-            
-            .modal-img-wrapper img {
-                max-height: 50vh;
-                max-width: 100%;
-            }
-
-            .modal-text-wrapper {
-                order: 2;
-                width: 95%;
-                margin-left: 0 !important;
-                margin-top: 0;
-                transform: translateY(20px);
-                opacity: 0;
-            }
-            
-            .modal-overlay:target .modal-text-wrapper {
-                transform: translateY(0);
-                opacity: 1;
-                margin-top: 1rem;
-            }
-        }
-    </style>
 </head>
 <body class="antialiased selection:bg-gray-700 selection:text-white">
 
@@ -303,10 +61,10 @@
                         <a href="#contact" class="font-cursive text-2xl text-gray-text hover:text-white transition-colors duration-300 tracking-wide">Contact</a>
                         
                         <div class="border-l border-dark-700 pl-8 flex space-x-6">
-                            <a href="https://instagram.com" target="_blank" class="text-gray-text hover:text-pink-500 transition-colors duration-300">
+                            <a href="https://www.instagram.com/randomlensecraft.byrt/" target="_main" class="text-gray-text hover:text-pink-500 transition-colors duration-300">
                                 <i class="fab fa-instagram text-xl"></i>
                             </a>
-                            <a href="https://facebook.com" target="_blank" class="text-gray-text hover:text-blue-500 transition-colors duration-300">
+                            <a href="https://www.facebook.com/rakesh.thaekur" target="_main" class="text-gray-text hover:text-blue-500 transition-colors duration-300">
                                 <i class="fab fa-facebook text-xl"></i>
                             </a>
                         </div>
@@ -347,12 +105,12 @@
                         <div class="space-y-2">
                             <h2 class="text-sm uppercase tracking-[0.2em] text-gray-500 font-semibold">Random PhotoGrapher</h2>
                             <h1 class="text-5xl md:text-7xl font-cursive text-gray-heading leading-tight py-2">
-                                Capturing moments <br>
-                                <span class="text-gray-500">in their purest form.</span>
+                                Finding Beauty <br>
+                                <span class="text-gray-500">in the unnoticed.</span>
                             </h1>
                         </div>
                         <p class="font-cursive text-3xl text-gray-text leading-relaxed max-w-lg tracking-wide">
-                            Hello, I'm Rakesh Thakur. I specialize in portrait and landscape photography. My work is an exploration of light, shadow, and the human condition. I strive to create images that are not just seen, but felt.
+                            Hello, I'm Rakesh Thakur.I'm just a photographer with camera and lots of curiosity.I don't stick to one niche, I simply capture whatever catches my eyes whethr it's a stunning sunset, a busy street, or a quite moment at home. This page is a visual dairy of the world as i see it through my lens.<br>Thank You.
                         </p>
                         <div class="pt-4">
                             <a href="#portfolio" class="inline-block border border-gray-600 px-8 py-3 text-sm tracking-widest hover:bg-white hover:text-black hover:border-white transition-all duration-300 rounded">
