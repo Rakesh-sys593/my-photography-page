@@ -4,15 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rakesh Thakur | Photography Portfolio</title>
+    
     <link rel="stylesheet" href="style.css">
     
-    
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Great+Vibes&display=swap" rel="stylesheet">
 
     <script>
@@ -38,22 +34,18 @@
             }
         }
     </script>
-
 </head>
-<body class="antialiased selection:bg-gray-700 selection:text-white">
+<body class="antialiased selection:bg-gray-700 selection:text-white bg-dark-900 text-gray-text">
 
-    <!-- Navigation -->
     <nav class="fixed w-full z-50 bg-dark-900/90 backdrop-blur-sm border-b border-dark-700 transition-all duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-20">
-                <!-- Logo -->
                 <div class="flex-shrink-0">
                     <a href="#" class="font-cursive text-4xl text-gray-heading tracking-wide hover:text-white transition-colors">
                         Rakesh Thakur
                     </a>
                 </div>
                 
-                <!-- Desktop Menu -->
                 <div class="hidden md:block">
                     <div class="ml-10 flex items-baseline space-x-8">
                         <a href="#about" class="font-cursive text-2xl text-gray-text hover:text-white transition-colors duration-300 tracking-wide">About Me</a>
@@ -71,17 +63,16 @@
                     </div>
                 </div>
 
-                <!-- Mobile menu toggle -->
                 <div class="md:hidden">
                     <label for="menu-toggle" class="text-gray-text hover:text-white p-2 cursor-pointer">
                         <i class="fas fa-bars text-2xl"></i>
                     </label>
-                    <input type="checkbox" id="menu-toggle" class="hidden">
                 </div>
             </div>
         </div>
 
-        <!-- Mobile Menu Panel -->
+        <input type="checkbox" id="menu-toggle" class="hidden">
+
         <div id="mobile-menu" class="hidden md:hidden bg-dark-800 border-b border-dark-700">
             <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
                 <a href="#about" class="block px-3 py-2 rounded-md font-cursive text-2xl text-gray-text hover:text-white hover:bg-dark-700 tracking-wide">About Me</a>
@@ -94,23 +85,21 @@
         </div>
     </nav>
 
-    <!-- Main Content Wrapper -->
     <main id="main-content" class="pt-20">
 
-        <!-- Hero Section -->
         <section id="about" class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-dark-900 reveal">
             <div class="max-w-7xl mx-auto w-full">
                 <div class="flex flex-col-reverse md:flex-row items-center justify-between gap-12">
                     <div class="w-full md:w-1/2 space-y-6">
                         <div class="space-y-2">
-                            <h2 class="text-sm uppercase tracking-[0.2em] text-gray-500 font-semibold">Random PhotoGrapher</h2>
+                            <h2 class="text-sm uppercase tracking-[0.2em] text-gray-500 font-semibold">Random Photographer</h2>
                             <h1 class="text-5xl md:text-7xl font-cursive text-gray-heading leading-tight py-2">
                                 Finding Beauty <br>
                                 <span class="text-gray-500">in the unnoticed.</span>
                             </h1>
                         </div>
                         <p class="font-cursive text-3xl text-gray-text leading-relaxed max-w-lg tracking-wide">
-                            Hello, I'm Rakesh Thakur.I'm just a photographer with camera and lots of curiosity.I don't stick to one niche, I simply capture whatever catches my eyes whether it's a stunning sunset, a busy street, or a quiet moment at home. This page is a visual diary of the world as i see it through my lens.<br>Thank You.
+                            Hello, I'm Rakesh Thakur. I'm just a photographer with a camera and lots of curiosity. I don't stick to one niche, I simply capture whatever catches my eyes whether it's a stunning sunset, a busy street, or a quiet moment at home. This page is a visual diary of the world as I see it through my lens.<br>Thank You.
                         </p>
                         <div class="pt-4">
                             <a href="#portfolio" class="inline-block border border-gray-600 px-8 py-3 text-sm tracking-widest hover:bg-white hover:text-black hover:border-white transition-all duration-300 rounded">
@@ -128,7 +117,6 @@
             </div>
         </section>
 
-        <!-- Portfolio Section -->
         <section id="portfolio" class="py-24 bg-dark-800">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="text-center mb-16 reveal">
@@ -138,136 +126,129 @@
 
                 <div class="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6 p-2">
                     
-                    <!-- Item 1 -->
                     <a href="#photo-1" class="photo-card block reveal delay-100">
-                        <img src="Image1.jpg" alt="Mountain" class="rounded-2xl">
+                        <img src="Image1.jpg" alt="Mountain" loading="lazy" class="rounded-2xl">
                         <div class="overlay absolute inset-0 flex items-center justify-center rounded-2xl">
                             <span class="text-white tracking-widest uppercase text-sm border-b border-white pb-1"><i class="fas fa-expand"></i> View</span>
                         </div>
                     </a>
 
-                    <!-- Item 2 -->
                     <a href="#photo-2" class="photo-card block reveal delay-200">
-                        <img src="Image2.jpg" alt="Urban" class="rounded-2xl">
+                        <img src="Image2.jpg" alt="Urban" loading="lazy" class="rounded-2xl">
                         <div class="overlay absolute inset-0 flex items-center justify-center rounded-2xl">
                             <span class="text-white tracking-widest uppercase text-sm border-b border-white pb-1"><i class="fas fa-expand"></i> View</span>
                         </div>
                     </a>
 
-                    <!-- Item 3 -->
                     <a href="#photo-3" class="photo-card block reveal delay-300">
-                        <img src="Image3.jpg" alt="River" class="rounded-2xl">
+                        <img src="Image3.jpg" alt="River" loading="lazy" class="rounded-2xl">
                         <div class="overlay absolute inset-0 flex items-center justify-center rounded-2xl">
                             <span class="text-white tracking-widest uppercase text-sm border-b border-white pb-1"><i class="fas fa-expand"></i> View</span>
                         </div>
                     </a>
 
-                    <!-- Item 4 -->
                     <a href="#photo-4" class="photo-card block reveal delay-100">
-                        <img src="Image4.jpg" alt="Neon" class="rounded-2xl">
+                        <img src="Image4.jpg" alt="Neon" loading="lazy" class="rounded-2xl">
                         <div class="overlay absolute inset-0 flex items-center justify-center rounded-2xl">
                             <span class="text-white tracking-widest uppercase text-sm border-b border-white pb-1"><i class="fas fa-expand"></i> View</span>
                         </div>
                     </a>
 
-                    <!-- Item 5 -->
                     <a href="#photo-5" class="photo-card block reveal delay-200">
-                        <img src="Image5.jpg" alt="Portrait" class="rounded-2xl">
+                        <img src="Image5.jpg" alt="Portrait" loading="lazy" class="rounded-2xl">
                         <div class="overlay absolute inset-0 flex items-center justify-center rounded-2xl">
                             <span class="text-white tracking-widest uppercase text-sm border-b border-white pb-1"><i class="fas fa-expand"></i> View</span>
                         </div>
                     </a>
 
-                    <!-- Item 6 -->
                     <a href="#photo-6" class="photo-card block reveal delay-300">
-                        <img src="Image6.jpg" alt="Nature" class="rounded-2xl">
+                        <img src="Image6.jpg" alt="Nature" loading="lazy" class="rounded-2xl">
                         <div class="overlay absolute inset-0 flex items-center justify-center rounded-2xl">
                             <span class="text-white tracking-widest uppercase text-sm border-b border-white pb-1"><i class="fas fa-expand"></i> View</span>
                         </div>
                     </a>
 
-                    <!-- Item 7 -->
                     <a href="#photo-7" class="photo-card block reveal delay-100">
-                        <img src="Image7.jpg" alt="Mountain" class="rounded-2xl">
+                        <img src="Image7.jpg" alt="Mountain" loading="lazy" class="rounded-2xl">
                         <div class="overlay absolute inset-0 flex items-center justify-center rounded-2xl">
                             <span class="text-white tracking-widest uppercase text-sm border-b border-white pb-1"><i class="fas fa-expand"></i> View</span>
                         </div>
                     </a>
-                    <!-- Item 8 -->
+                    
                     <a href="#photo-8" class="photo-card block reveal delay-200">
-                        <img src="Image8.jpg" alt="Mountain" class="rounded-2xl">
+                        <img src="Image8.jpg" alt="Mountain" loading="lazy" class="rounded-2xl">
                         <div class="overlay absolute inset-0 flex items-center justify-center rounded-2xl">
                             <span class="text-white tracking-widest uppercase text-sm border-b border-white pb-1"><i class="fas fa-expand"></i> View</span>
                         </div>
                     </a>
-                    <!-- Item 9 -->
+                    
                     <a href="#photo-9" class="photo-card block reveal delay-200">
-                        <img src="Image9.jpg" alt="Mountain" class="rounded-2xl">
+                        <img src="Image9.jpg" alt="Mountain" loading="lazy" class="rounded-2xl">
                         <div class="overlay absolute inset-0 flex items-center justify-center rounded-2xl">
                             <span class="text-white tracking-widest uppercase text-sm border-b border-white pb-1"><i class="fas fa-expand"></i> View</span>
                         </div>
                     </a>
-                    <!-- Item 10 -->
+                    
                     <a href="#photo-10" class="photo-card block reveal delay-200">
-                        <img src="Image10.jpg" alt="Mountain" class="rounded-2xl">
+                        <img src="Image10.jpg" alt="Mountain" loading="lazy" class="rounded-2xl">
                         <div class="overlay absolute inset-0 flex items-center justify-center rounded-2xl">
                             <span class="text-white tracking-widest uppercase text-sm border-b border-white pb-1"><i class="fas fa-expand"></i> View</span>
                         </div>
                     </a>
-                    <!-- Item 11 -->
+                    
                     <a href="#photo-11" class="photo-card block reveal delay-200">
-                        <img src="Image11.jpg" alt="Mountain" class="rounded-2xl">
+                        <img src="Image11.jpg" alt="Mountain" loading="lazy" class="rounded-2xl">
                         <div class="overlay absolute inset-0 flex items-center justify-center rounded-2xl">
                             <span class="text-white tracking-widest uppercase text-sm border-b border-white pb-1"><i class="fas fa-expand"></i> View</span>
                         </div>
                     </a>
-                    <!-- Item 12 -->
+                    
                     <a href="#photo-12" class="photo-card block reveal delay-200">
-                        <img src="Image12.jpg" alt="Mountain" class="rounded-2xl">
+                        <img src="Image12.jpg" alt="Mountain" loading="lazy" class="rounded-2xl">
                         <div class="overlay absolute inset-0 flex items-center justify-center rounded-2xl">
                             <span class="text-white tracking-widest uppercase text-sm border-b border-white pb-1"><i class="fas fa-expand"></i> View</span>
                         </div>
                     </a>
-                    <!-- Item 13 -->
+                    
                     <a href="#photo-13" class="photo-card block reveal delay-200">
-                        <img src="Image13.jpg" alt="Mountain" class="rounded-2xl">
+                        <img src="Image13.jpg" alt="Mountain" loading="lazy" class="rounded-2xl">
                         <div class="overlay absolute inset-0 flex items-center justify-center rounded-2xl">
                             <span class="text-white tracking-widest uppercase text-sm border-b border-white pb-1"><i class="fas fa-expand"></i> View</span>
                         </div>
                     </a>
-                    <!-- Item 14 -->
+                    
                     <a href="#photo-14" class="photo-card block reveal delay-200">
-                        <img src="Image14.jpg" alt="Mountain" class="rounded-2xl">
+                        <img src="Image14.jpg" alt="Mountain" loading="lazy" class="rounded-2xl">
                         <div class="overlay absolute inset-0 flex items-center justify-center rounded-2xl">
                             <span class="text-white tracking-widest uppercase text-sm border-b border-white pb-1"><i class="fas fa-expand"></i> View</span>
                         </div>
                     </a>
-                    <!-- Item 15 -->
+                    
                     <a href="#photo-15" class="photo-card block reveal delay-200">
-                        <img src="Image15.jpg" alt="Mountain" class="rounded-2xl">
+                        <img src="Image15.jpg" alt="Mountain" loading="lazy" class="rounded-2xl">
                         <div class="overlay absolute inset-0 flex items-center justify-center rounded-2xl">
                             <span class="text-white tracking-widest uppercase text-sm border-b border-white pb-1"><i class="fas fa-expand"></i> View</span>
                         </div>
                     </a>
-                    <!-- Item 16 -->
+                    
                     <a href="#photo-16" class="photo-card block reveal delay-200">
-                        <img src="Image16.jpg" alt="Mountain" class="rounded-2xl">
+                        <img src="Image16.jpg" alt="Mountain" loading="lazy" class="rounded-2xl">
                         <div class="overlay absolute inset-0 flex items-center justify-center rounded-2xl">
                             <span class="text-white tracking-widest uppercase text-sm border-b border-white pb-1"><i class="fas fa-expand"></i> View</span>
                         </div>
                     </a>
-                    <!-- Item 17 -->
+                    
                     <a href="#photo-17" class="photo-card block reveal delay-200">
-                        <img src="Image17.jpg" alt="Mountain" class="rounded-2xl">
+                        <img src="Image17.jpg" alt="Mountain" loading="lazy" class="rounded-2xl">
                         <div class="overlay absolute inset-0 flex items-center justify-center rounded-2xl">
                             <span class="text-white tracking-widest uppercase text-sm border-b border-white pb-1"><i class="fas fa-expand"></i> View</span>
                         </div>
                     </a>
+
                 </div>
             </div>
         </section>
 
-        <!-- Footer -->
         <footer id="contact" class="bg-dark-900 border-t border-dark-700 py-12 reveal">
             <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center">
                 <h3 class="text-4xl font-cursive text-white mb-6">Let's Create Together</h3>
@@ -292,9 +273,6 @@
 
     </main>
 
-    <!-- === CSS-ONLY MODALS === -->
-    
-    <!-- Modal 1 -->
     <div id="photo-1" class="modal-overlay" style="--bg-img: url('Image1.jpg');">
         <a href="#portfolio" class="absolute inset-0 cursor-default"></a> 
         <a href="#portfolio" class="absolute top-6 right-6 text-white hover:text-gray-300 z-50"><i class="fas fa-times text-4xl"></i></a>
@@ -316,7 +294,6 @@
         </div>
     </div>
 
-    <!-- Modal 2 -->
     <div id="photo-2" class="modal-overlay" style="--bg-img: url('Image2.jpg');">
         <a href="#portfolio" class="absolute inset-0 cursor-default"></a>
         <a href="#portfolio" class="absolute top-6 right-6 text-white hover:text-gray-300 z-50"><i class="fas fa-times text-4xl"></i></a>
@@ -338,7 +315,6 @@
         </div>
     </div>
 
-    <!-- Modal 3 -->
     <div id="photo-3" class="modal-overlay" style="--bg-img: url('Image3.jpg');">
         <a href="#portfolio" class="absolute inset-0 cursor-default"></a>
         <a href="#portfolio" class="absolute top-6 right-6 text-white hover:text-gray-300 z-50"><i class="fas fa-times text-4xl"></i></a>
@@ -360,7 +336,6 @@
         </div>
     </div>
 
-    <!-- Modal 4 -->
     <div id="photo-4" class="modal-overlay" style="--bg-img: url('Image4.jpg');">
         <a href="#portfolio" class="absolute inset-0 cursor-default"></a>
         <a href="#portfolio" class="absolute top-6 right-6 text-white hover:text-gray-300 z-50"><i class="fas fa-times text-4xl"></i></a>
@@ -382,7 +357,6 @@
         </div>
     </div>
 
-    <!-- Modal 5 -->
     <div id="photo-5" class="modal-overlay" style="--bg-img: url('Image5.jpg');">
         <a href="#portfolio" class="absolute inset-0 cursor-default"></a>
         <a href="#portfolio" class="absolute top-6 right-6 text-white hover:text-gray-300 z-50"><i class="fas fa-times text-4xl"></i></a>
@@ -404,7 +378,6 @@
         </div>
     </div>
 
-    <!-- Modal 6 -->
     <div id="photo-6" class="modal-overlay" style="--bg-img: url('Image6.jpg');">
         <a href="#portfolio" class="absolute inset-0 cursor-default"></a>
         <a href="#portfolio" class="absolute top-6 right-6 text-white hover:text-gray-300 z-50"><i class="fas fa-times text-4xl"></i></a>
@@ -426,7 +399,6 @@
         </div>
     </div>
 
-    <!-- Modal 7 -->
     <div id="photo-7" class="modal-overlay" style="--bg-img: url('Image7.jpg');">
         <a href="#portfolio" class="absolute inset-0 cursor-default"></a>
         <a href="#portfolio" class="absolute top-6 right-6 text-white hover:text-gray-300 z-50"><i class="fas fa-times text-4xl"></i></a>
@@ -448,7 +420,6 @@
         </div>
     </div>
 
-    <!-- Modal 8 -->
     <div id="photo-8" class="modal-overlay" style="--bg-img: url('Image8.jpg');">
         <a href="#portfolio" class="absolute inset-0 cursor-default"></a>
         <a href="#portfolio" class="absolute top-6 right-6 text-white hover:text-gray-300 z-50"><i class="fas fa-times text-4xl"></i></a>
@@ -469,7 +440,7 @@
             <img src="Image8.jpg" alt="Starlight">
         </div>
     </div>
-    <!-- Modal 9 -->
+
     <div id="photo-9" class="modal-overlay" style="--bg-img: url('Image9.jpg');">
         <a href="#portfolio" class="absolute inset-0 cursor-default"></a>
         <a href="#portfolio" class="absolute top-6 right-6 text-white hover:text-gray-300 z-50"><i class="fas fa-times text-4xl"></i></a>
@@ -490,7 +461,7 @@
             <img src="Image9.jpg" alt="Starlight">
         </div>
     </div>
-     <!-- Modal 10 -->
+
     <div id="photo-10" class="modal-overlay" style="--bg-img: url('Image10.jpg');">
         <a href="#portfolio" class="absolute inset-0 cursor-default"></a>
         <a href="#portfolio" class="absolute top-6 right-6 text-white hover:text-gray-300 z-50"><i class="fas fa-times text-4xl"></i></a>
@@ -511,7 +482,7 @@
             <img src="Image10.jpg" alt="Starlight">
         </div>
     </div>
-     <!-- Modal 11 -->
+
     <div id="photo-11" class="modal-overlay" style="--bg-img: url('Image11.jpg');">
         <a href="#portfolio" class="absolute inset-0 cursor-default"></a>
         <a href="#portfolio" class="absolute top-6 right-6 text-white hover:text-gray-300 z-50"><i class="fas fa-times text-4xl"></i></a>
@@ -532,7 +503,7 @@
             <img src="Image11.jpg" alt="Starlight">
         </div>
     </div>
-     <!-- Modal 12 -->
+
     <div id="photo-12" class="modal-overlay" style="--bg-img: url('Image12.jpg');">
         <a href="#portfolio" class="absolute inset-0 cursor-default"></a>
         <a href="#portfolio" class="absolute top-6 right-6 text-white hover:text-gray-300 z-50"><i class="fas fa-times text-4xl"></i></a>
@@ -553,7 +524,7 @@
             <img src="Image12.jpg" alt="Starlight">
         </div>
     </div>
-     <!-- Modal 13 -->
+
     <div id="photo-13" class="modal-overlay" style="--bg-img: url('Image13.jpg');">
         <a href="#portfolio" class="absolute inset-0 cursor-default"></a>
         <a href="#portfolio" class="absolute top-6 right-6 text-white hover:text-gray-300 z-50"><i class="fas fa-times text-4xl"></i></a>
@@ -574,7 +545,7 @@
             <img src="Image13.jpg" alt="Starlight">
         </div>
     </div>
-     <!-- Modal 14 -->
+
     <div id="photo-14" class="modal-overlay" style="--bg-img: url('Image9.jpg');">
         <a href="#portfolio" class="absolute inset-0 cursor-default"></a>
         <a href="#portfolio" class="absolute top-6 right-6 text-white hover:text-gray-300 z-50"><i class="fas fa-times text-4xl"></i></a>
@@ -595,7 +566,7 @@
             <img src="Image14.jpg" alt="Starlight">
         </div>
     </div>
-     <!-- Modal 15 -->
+
     <div id="photo-15" class="modal-overlay" style="--bg-img: url('Image15.jpg');">
         <a href="#portfolio" class="absolute inset-0 cursor-default"></a>
         <a href="#portfolio" class="absolute top-6 right-6 text-white hover:text-gray-300 z-50"><i class="fas fa-times text-4xl"></i></a>
@@ -616,7 +587,7 @@
             <img src="Image15.jpg" alt="Starlight">
         </div>
     </div>
-    <!-- Modal 16 -->
+
     <div id="photo-16" class="modal-overlay" style="--bg-img: url('Image16.jpg');">
         <a href="#portfolio" class="absolute inset-0 cursor-default"></a>
         <a href="#portfolio" class="absolute top-6 right-6 text-white hover:text-gray-300 z-50"><i class="fas fa-times text-4xl"></i></a>
@@ -637,7 +608,7 @@
             <img src="Image16.jpg" alt="Starlight">
         </div>
     </div>
-    <!-- Modal 17 -->
+
     <div id="photo-17" class="modal-overlay" style="--bg-img: url('Image17.jpg');">
         <a href="#portfolio" class="absolute inset-0 cursor-default"></a>
         <a href="#portfolio" class="absolute top-6 right-6 text-white hover:text-gray-300 z-50"><i class="fas fa-times text-4xl"></i></a>
@@ -659,7 +630,6 @@
         </div>
     </div>
 
-    <!-- Lightweight Script for Scroll Animations -->
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const observerOptions = {
