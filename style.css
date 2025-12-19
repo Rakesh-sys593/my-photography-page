@@ -1,20 +1,24 @@
 body {
     background-color: #121212;
     color: #b0b0b0;
-    overflow-x: hidden; /* Prevent horizontal scrollbar during animations */
+    overflow-x: hidden;
+    /* Prevent horizontal scrollbar during animations */
 }
 
 
 ::-webkit-scrollbar {
     width: 8px;
 }
+
 ::-webkit-scrollbar-track {
     background: #121212;
 }
+
 ::-webkit-scrollbar-thumb {
     background: #333;
     border-radius: 4px;
 }
+
 ::-webkit-scrollbar-thumb:hover {
     background: #555;
 }
@@ -22,10 +26,10 @@ body {
 
 .reveal {
     opacity: 0;
-    
-    transform: translateY(100px); 
+
+    transform: translateY(100px);
     transition: opacity 1s ease, transform 1s cubic-bezier(0.2, 1, 0.3, 1);
-    will-change: opacity, transform; 
+    will-change: opacity, transform;
 }
 
 .reveal.active {
@@ -34,19 +38,26 @@ body {
 }
 
 
-.delay-100 { transition-delay: 100ms; }
-.delay-200 { transition-delay: 200ms; }
-.delay-300 { transition-delay: 300ms; }
+.delay-100 {
+    transition-delay: 100ms;
+}
+
+.delay-200 {
+    transition-delay: 200ms;
+}
+
+.delay-300 {
+    transition-delay: 300ms;
+}
 
 .photo-card {
     break-inside: avoid;
-    margin-bottom: 1.5rem;
     position: relative;
     border-radius: 1rem;
     overflow: hidden;
     cursor: zoom-in;
-    
-    transform: translateZ(0); 
+
+    transform: translateZ(0);
 }
 
 .photo-card img {
@@ -61,7 +72,7 @@ body {
 }
 
 .overlay {
-    background: rgba(0,0,0,0.4);
+    background: rgba(0, 0, 0, 0.4);
     opacity: 0;
     transition: opacity 0.3s ease;
 }
@@ -77,7 +88,7 @@ body {
     position: fixed;
     inset: 0;
     z-index: 100;
-    background-color: rgba(0, 0, 0, 0.8); 
+    background-color: rgba(0, 0, 0, 0.8);
     transition: opacity 0.4s ease, visibility 0.4s ease;
     display: flex;
     align-items: center;
@@ -91,11 +102,11 @@ body {
 .modal-overlay::before {
     content: '';
     position: absolute;
-    inset: -20px; 
+    inset: -20px;
     background-image: var(--bg-img);
     background-size: cover;
     background-position: center;
-    filter: blur(8px) brightness(0.3); 
+    filter: blur(8px) brightness(0.3);
     z-index: -1;
     opacity: 0;
     transition: opacity 0.5s ease;
@@ -119,12 +130,12 @@ body {
     flex-shrink: 1;
     min-width: 0;
     max-width: 75vw;
-    
-    
-    transform: translateY(50vh) scale(0.9); 
+
+
+    transform: translateY(50vh) scale(0.9);
     opacity: 0;
-    
-    
+
+
     transition: transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.6s ease;
     will-change: transform, opacity;
     position: relative;
@@ -145,19 +156,19 @@ body {
     z-index: 10;
     width: 20rem;
     flex-shrink: 0;
-    
-    background: #1e1e1e; 
-    
-    
-    margin-left: -20rem; 
+
+    background: #1e1e1e;
+
+
+    margin-left: -20rem;
     opacity: 0;
     transform: scale(0.95);
-    
-    transition: margin-left 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s, 
-                opacity 0.4s ease 0.2s, 
-                transform 0.4s ease 0.2s;
+
+    transition: margin-left 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.1s,
+        opacity 0.4s ease 0.2s,
+        transform 0.4s ease 0.2s;
     will-change: margin-left, opacity, transform;
-    
+
     display: flex;
     flex-direction: column;
     max-height: 80vh;
@@ -178,22 +189,23 @@ body {
 
 .modal-overlay:target .modal-img-wrapper {
     max-width: calc(100vw - 26rem);
-    
+
     transform: translateY(0) scale(1);
     opacity: 1;
 }
 
 
-#menu-toggle:checked ~ #mobile-menu {
+#menu-toggle:checked~#mobile-menu {
     display: block;
 }
 
 
-.like-checkbox:checked + label i {
+.like-checkbox:checked+label i {
     font-weight: 900;
     color: #ef4444;
 }
-.like-checkbox:checked + label span {
+
+.like-checkbox:checked+label span {
     color: #ef4444;
 }
 
@@ -203,16 +215,16 @@ body {
         flex-direction: column;
         padding: 1rem;
     }
-    
+
     .modal-img-wrapper {
         order: 1;
         max-width: 100% !important;
         flex-shrink: 0;
         margin-bottom: -20px;
-        
+
         transform: translateY(50px);
     }
-    
+
     .modal-img-wrapper img {
         max-height: 50vh;
         max-width: 100%;
@@ -226,7 +238,7 @@ body {
         transform: translateY(20px);
         opacity: 0;
     }
-    
+
     .modal-overlay:target .modal-text-wrapper {
         transform: translateY(0);
         opacity: 1;
