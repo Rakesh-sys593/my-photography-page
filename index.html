@@ -128,11 +128,11 @@
                         </div>
                     </div>
                     <div class="w-full md:w-1/2 flex justify-center md:justify-end">
-                        <div class="relative w-72 h-72 md:w-96 md:h-96">
+                        <div class="relative w-72 h-72 md:w-96 md:h-96" id="profile-image-container">
                             <div
                                 class="absolute inset-0 border border-gray-700 translate-x-4 translate-y-4 z-0 rounded-2xl">
                             </div>
-                            <img src="image.jpg" alt="Rakesh Thakur"
+                            <img src="image.jpg" alt="Rakesh Thakur" id="profile-image"
                                 class="relative z-10 w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700 shadow-2xl rounded-2xl">
                         </div>
                     </div>
@@ -942,6 +942,90 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // Skeleton Loader for Images
+            const photoCards = document.querySelectorAll('.photo-card');
+
+            photoCards.forEach(card => {
+                const img = card.querySelector('img');
+
+                if (img) {
+                    // Create skeleton element
+                    const skeleton = document.createElement('div');
+                    skeleton.className = 'skeleton skeleton-card';
+                    skeleton.style.aspectRatio = '1/1'; // Default aspect ratio
+
+                    // Insert skeleton before the image
+                    img.style.opacity = '0';
+                    img.parentElement.insertBefore(skeleton, img);
+
+                    // Handle image load
+                    const handleImageLoad = () => {
+                        img.style.opacity = '1';
+                        card.classList.add('loaded');
+
+                        // Remove skeleton with fade out
+                        skeleton.style.transition = 'opacity 0.3s ease-out';
+                        skeleton.style.opacity = '0';
+                        setTimeout(() => {
+                            skeleton.remove();
+                        }, 300);
+                    };
+
+                    if (img.complete && img.naturalHeight !== 0) {
+                        // Image already loaded
+                        handleImageLoad();
+                    } else {
+                        // Wait for image to load
+                        img.addEventListener('load', handleImageLoad);
+
+                        // Handle error case
+                        img.addEventListener('error', () => {
+                            skeleton.remove();
+                            img.style.opacity = '1';
+                        });
+                    }
+                }
+            });
+
+            // Skeleton Loader for Profile Image
+            const profileImg = document.getElementById('profile-image');
+            const profileContainer = document.getElementById('profile-image-container');
+
+            if (profileImg && profileContainer) {
+                const skeleton = document.createElement('div');
+                skeleton.className = 'skeleton';
+                skeleton.style.position = 'absolute';
+                skeleton.style.inset = '0';
+                skeleton.style.zIndex = '15';
+                skeleton.style.width = '100%';
+                skeleton.style.height = '100%';
+
+                profileImg.style.opacity = '0';
+                profileContainer.appendChild(skeleton);
+
+                const handleProfileLoad = () => {
+                    profileImg.style.transition = 'opacity 0.5s ease-in-out';
+                    profileImg.style.opacity = '1';
+
+                    skeleton.style.transition = 'opacity 0.3s ease-out';
+                    skeleton.style.opacity = '0';
+                    setTimeout(() => {
+                        skeleton.remove();
+                    }, 300);
+                };
+
+                if (profileImg.complete && profileImg.naturalHeight !== 0) {
+                    handleProfileLoad();
+                } else {
+                    profileImg.addEventListener('load', handleProfileLoad);
+                    profileImg.addEventListener('error', () => {
+                        skeleton.remove();
+                        profileImg.style.opacity = '1';
+                    });
+                }
+            }
+
+            // Intersection Observer for Reveal Animations
             const observerOptions = {
                 root: null,
                 rootMargin: '0px',
