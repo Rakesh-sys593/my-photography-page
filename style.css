@@ -402,3 +402,192 @@ body {
         margin-top: 1rem;
     }
 }
+
+/* ====================  THEME TOGGLE BUTTON ==================== */
+#theme-toggle {
+    transition: all 0.3s ease;
+}
+
+#theme-toggle:active {
+    transform: scale(0.95);
+}
+
+.dark-icon,
+.light-icon {
+    position: absolute;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.dark-icon {
+    transform: rotate(0deg) scale(1);
+    opacity: 1;
+}
+
+body.light-mode .dark-icon {
+    transform: rotate(360deg) scale(0);
+    opacity: 0;
+}
+
+.light-icon {
+    transform: rotate(-360deg) scale(0);
+    opacity: 0;
+}
+
+body.light-mode .light-icon {
+    transform: rotate(0deg) scale(1);
+    opacity: 1;
+}
+
+/* ==================== LIGHT MODE THEME ==================== */
+/* Apply smooth transitions to all theme-related properties */
+body,
+.modal-text-wrapper,
+.skeleton,
+.skeleton-image,
+.skeleton-card-wrapper,
+.photo-card,
+.modal-overlay {
+    transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease !important;
+}
+
+/* Light Mode Styles */
+body.light-mode {
+    background-color: #f8f9fa;
+    color: #212529;
+}
+
+body.light-mode #theme-toggle {
+    background: rgba(255, 255, 255, 0.9);
+    border-color: rgba(0, 0, 0, 0.1);
+}
+
+body.light-mode #theme-toggle:hover {
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+/* Scrollbar Light Mode */
+body.light-mode::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+body.light-mode::-webkit-scrollbar-thumb {
+    background: #ccc;
+}
+
+body.light-mode::-webkit-scrollbar-thumb:hover {
+    background: #aaa;
+}
+
+/* Modal Overlays */
+body.light-mode .modal-text-wrapper {
+    background: #ffffff;
+    border-color: #e0e0e0;
+    color: #212529;
+}
+
+body.light-mode .modal-text-wrapper h3 {
+    color: #1a1a1a;
+    border-bottom-color: #e0e0e0;
+}
+
+body.light-mode .modal-text-wrapper p {
+    color: #4a4a4a;
+}
+
+body.light-mode .modal-overlay {
+    background-color: rgba(255, 255, 255, 0.95);
+}
+
+body.light-mode .modal-overlay::before {
+    filter: blur(8px) brightness(0.8);
+}
+
+/* Skeleton Loaders Light Mode */
+body.light-mode .skeleton {
+    background: #e0e0e0;
+}
+
+body.light-mode .skeleton::before {
+    background: linear-gradient(90deg,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(255, 255, 255, 0.6) 20%,
+            rgba(255, 255, 255, 0.9) 50%,
+            rgba(255, 255, 255, 0.6) 80%,
+            rgba(255, 255, 255, 0) 100%);
+}
+
+body.light-mode .skeleton-card-wrapper {
+    background: #ffffff;
+}
+
+body.light-mode .skeleton-image {
+    background: #e0e0e0;
+}
+
+body.light-mode .skeleton-avatar {
+    background: rgba(0, 0, 0, 0.08);
+}
+
+body.light-mode .skeleton-text {
+    background: rgba(0, 0, 0, 0.08);
+}
+
+body.light-mode .skeleton-profile {
+    background: #e0e0e0;
+}
+
+/* Photo Cards & Gallery Light Mode */
+body.light-mode .photo-card {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+body.light-mode .photo-card:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+}
+
+/* Refresh Indicator Light Mode */
+body.light-mode #refresh-indicator {
+    background: rgba(255, 255, 255, 0.95);
+    color: #212529;
+    border-color: rgba(0, 0, 0, 0.1);
+}
+
+/* Like Button Light Mode */
+body.light-mode .like-checkbox+label {
+    color: #666;
+}
+
+body.light-mode .like-checkbox+label:hover {
+    color: #333;
+}
+
+/* Text Colors */
+body.light-mode .text-gray-heading {
+    color: #1a1a1a !important;
+}
+
+body.light-mode .text-gray-text {
+    color: #4a4a4a !important;
+}
+
+body.light-mode .text-gray-400 {
+    color: #6b7280 !important;
+}
+
+body.light-mode .text-gray-300 {
+    color: #9ca3af !important;
+}
+
+body.light-mode .text-gray-500 {
+    color: #6b7280 !important;
+}
+
+/* Background Colors */
+body.light-mode .bg-dark-900 {
+    background-color: #f8f9fa !important;
+}
+
+body.light-mode .bg-dark-800 {
+    background-color: #ffffff !important;
+}

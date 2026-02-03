@@ -780,6 +780,16 @@
 </head>
 
 <body class="antialiased selection:bg-gray-700 selection:text-white bg-dark-900 text-gray-text">
+    <!-- Theme Toggle Button -->
+    <button id="theme-toggle"
+        class="fixed top-6 right-6 z-[999] w-14 h-14 rounded-full bg-dark-700/80 backdrop-blur-md border border-dark-600 hover:bg-dark-600 transition-all duration-300 flex items-center justify-center group shadow-lg hover:shadow-xl hover:scale-110"
+        aria-label="Toggle theme">
+        <i
+            class="fas fa-moon text-2xl text-gray-300 group-hover:text-white transform transition-transform duration-300 dark-icon"></i>
+        <i
+            class="fas fa-sun text-2xl text-amber-400 group-hover:text-amber-300 transform transition-transform duration-300 light-icon hidden"></i>
+    </button>
+
     <div id="photo-52" class="modal-overlay" style="--bg-img: url('Image52.jpg');">
         <a href="#portfolio" class="absolute inset-0 cursor-default"></a>
         <a href="#portfolio" class="absolute top-6 right-6 text-white hover:text-gray-300 z-50"><i
@@ -2283,6 +2293,36 @@
             };
 
             console.log('✨ Mobile enhancements loaded: Swipe gestures, Lazy loading, Pull-to-refresh');
+
+            // ==================== THEME TOGGLE FUNCTIONALITY ====================
+            const themeToggleBtn = document.getElementById('theme-toggle');
+            const body = document.body;
+
+            // Check for saved theme preference or default to dark mode
+            const currentTheme = localStorage.getItem('theme') || 'dark';
+
+            // Apply saved theme on page load
+            if (currentTheme === 'light') {
+                body.classList.add('light-mode');
+            }
+
+            // Toggle theme on button click
+            themeToggleBtn.addEventListener('click', () => {
+                body.classList.toggle('light-mode');
+
+                // Save preference to localStorage
+                const theme = body.classList.contains('light-mode') ? 'light' : 'dark';
+                localStorage.setItem('theme', theme);
+
+                // Optional: Add haptic feedback
+                if (navigator.vibrate) {
+                    navigator.vibrate(10);
+                }
+
+                console.log(`🎨 Theme switched to: ${theme} mode`);
+            });
+
+            console.log('🌓 Theme toggle initialized. Current theme:', currentTheme);
         });
     </script>
     <script src="masonry.js"></script>
