@@ -338,6 +338,35 @@ body {
 }
 
 
+/* Pull-to-Refresh Indicator Styles */
+#refresh-indicator {
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+#refresh-indicator i {
+    transition: transform 0.3s ease;
+}
+
+/* Font Awesome spin animation */
+.fa-spin {
+    animation: fa-spin 1s infinite linear;
+}
+
+@keyframes fa-spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+
 @media (max-width: 1024px) {
     .modal-overlay {
         flex-direction: column;

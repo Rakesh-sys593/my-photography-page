@@ -190,6 +190,14 @@
                         </div>
                     </a>
 
+                    <a href="#photo-23" class="photo-card block reveal delay-200">
+                        <img src="Image23.jpg" alt="New View" loading="lazy" class="rounded-2xl">
+                        <div class="overlay absolute inset-0 flex items-center justify-center rounded-2xl">
+                            <span class="text-white tracking-widest uppercase text-sm border-b border-white pb-1"><i
+                                    class="fas fa-expand"></i> View</span>
+                        </div>
+                    </a>
+
                     <a href="#photo-1" class="photo-card block reveal delay-100">
                         <img src="Image1.jpg" alt="Mountain" loading="lazy" class="rounded-2xl">
                         <div class="overlay absolute inset-0 flex items-center justify-center rounded-2xl">
@@ -918,7 +926,7 @@
         <a href="#portfolio" class="absolute inset-0 cursor-default"></a>
         <a href="#portfolio" class="absolute top-6 right-6 text-white hover:text-gray-300 z-50"><i
                 class="fas fa-times text-4xl"></i></a>
-        <a href="#photo-1"
+        <a href="#photo-23"
             class="absolute right-4 text-white hover:text-gray-300 z-50 p-4 bg-black/20 hover:bg-black/50 rounded-full backdrop-blur-sm"><i
                 class="fas fa-chevron-right text-3xl"></i></a>
 
@@ -937,6 +945,32 @@
         </div>
         <div class="modal-img-wrapper">
             <img src="Image22.jpg" alt="Organ of light">
+        </div>
+    </div>
+
+    <div id="photo-23" class="modal-overlay" style="--bg-img: url('Image23.jpg');">
+        <a href="#portfolio" class="absolute inset-0 cursor-default"></a>
+        <a href="#portfolio" class="absolute top-6 right-6 text-white hover:text-gray-300 z-50"><i
+                class="fas fa-times text-4xl"></i></a>
+        <a href="#photo-1"
+            class="absolute right-4 text-white hover:text-gray-300 z-50 p-4 bg-black/20 hover:bg-black/50 rounded-full backdrop-blur-sm"><i
+                class="fas fa-chevron-right text-3xl"></i></a>
+
+        <div class="modal-text-wrapper">
+            <h3 class="text-4xl font-cursive text-white mb-4 border-b border-gray-700 pb-2">New Perspective</h3>
+            <p class="text-gray-400 leading-relaxed mb-6">A fresh view captured through the lens. Every moment tells a
+                story, and this is another chapter in the visual journey.</p>
+            <div class="flex items-center justify-start pt-2">
+                <input type="checkbox" id="like-23" class="like-checkbox hidden">
+                <label for="like-23"
+                    class="flex items-center space-x-2 text-gray-500 cursor-pointer hover:text-gray-300 transition-colors">
+                    <i class="far fa-heart text-2xl transition-transform active:scale-90"></i>
+                    <span class="text-xs uppercase tracking-widest">Like</span>
+                </label>
+            </div>
+        </div>
+        <div class="modal-img-wrapper">
+            <img src="Image23.jpg" alt="New View">
         </div>
     </div>
 
@@ -1073,6 +1107,192 @@
 
             const revealElements = document.querySelectorAll('.reveal');
             revealElements.forEach(el => observer.observe(el));
+
+            // ==================== MOBILE ENHANCEMENTS ====================
+
+            // 1. SWIPE GESTURES FOR LIGHTBOX PHOTO NAVIGATION
+            let touchStartX = 0;
+            let touchEndX = 0;
+            const swipeThreshold = 50; // Minimum swipe distance in pixels
+
+            document.querySelectorAll('.modal-overlay').forEach(modal => {
+                modal.addEventListener('touchstart', (e) => {
+                    touchStartX = e.changedTouches[0].screenX;
+                }, { passive: true });
+
+                modal.addEventListener('touchend', (e) => {
+                    touchEndX = e.changedTouches[0].screenX;
+                    handleSwipe(modal);
+                }, { passive: true });
+            });
+
+            function handleSwipe(modal) {
+                const swipeDistance = touchEndX - touchStartX;
+
+                if (Math.abs(swipeDistance) > swipeThreshold) {
+                    if (swipeDistance > 0) {
+                        // Swipe right - go to previous photo
+                        const prevButton = modal.querySelector('a.absolute.left-4');
+                        if (prevButton) {
+                            prevButton.click();
+                        }
+                    } else {
+                        // Swipe left - go to next photo
+                        const nextButton = modal.querySelector('a.absolute.right-4');
+                        if (nextButton) {
+                            nextButton.click();
+                        }
+                    }
+                }
+            }
+
+            // 2. LAZY LOADING FOR IMAGES (Enhanced with Intersection Observer)
+            const lazyLoadOptions = {
+                root: null,
+                rootMargin: '50px', // Start loading 50px before entering viewport
+                threshold: 0.01
+            };
+
+            const lazyLoadObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+
+                        // If image has data-src, load it
+                        if (img.dataset.src) {
+                            img.src = img.dataset.src;
+                            img.removeAttribute('data-src');
+                        }
+
+                        // Mark as lazy-loaded
+                        img.classList.add('lazy-loaded');
+                        lazyLoadObserver.unobserve(img);
+                    }
+                });
+            }, lazyLoadOptions);
+
+            // Observe all images that aren't immediately visible
+            const lazyImages = document.querySelectorAll('img[loading="lazy"]');
+            lazyImages.forEach(img => lazyLoadObserver.observe(img));
+
+            // 3. PULL-TO-REFRESH FUNCTIONALITY
+            let pullStartY = 0;
+            let pullMoveY = 0;
+            let isPulling = false;
+            let refreshThreshold = 80; // Distance to pull before refresh triggers
+
+            // Create refresh indicator
+            const refreshIndicator = document.createElement('div');
+            refreshIndicator.id = 'refresh-indicator';
+            refreshIndicator.innerHTML = '<i class="fas fa-sync-alt"></i><span>Pull to refresh</span>';
+            refreshIndicator.style.cssText = `
+                position: fixed;
+                top: -80px;
+                left: 50%;
+                transform: translateX(-50%);
+                background: rgba(30, 30, 30, 0.95);
+                color: #e0e0e0;
+                padding: 12px 24px;
+                border-radius: 0 0 12px 12px;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                z-index: 1000;
+                transition: top 0.3s ease, transform 0.3s ease;
+                backdrop-filter: blur(10px);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            `;
+            document.body.appendChild(refreshIndicator);
+
+            document.addEventListener('touchstart', (e) => {
+                // Only enable pull-to-refresh when at top of page
+                if (window.scrollY === 0) {
+                    pullStartY = e.touches[0].screenY;
+                    isPulling = true;
+                }
+            }, { passive: true });
+
+            document.addEventListener('touchmove', (e) => {
+                if (!isPulling) return;
+
+                pullMoveY = e.touches[0].screenY;
+                const pullDistance = pullMoveY - pullStartY;
+
+                if (pullDistance > 0 && window.scrollY === 0) {
+                    // Show indicator based on pull distance
+                    const progress = Math.min(pullDistance / refreshThreshold, 1);
+                    const indicatorTop = -80 + (pullDistance * 0.5);
+
+                    refreshIndicator.style.top = `${Math.min(indicatorTop, 0)}px`;
+
+                    // Rotate icon based on progress
+                    const icon = refreshIndicator.querySelector('i');
+                    if (icon) {
+                        icon.style.transform = `rotate(${progress * 360}deg)`;
+                    }
+
+                    // Update text
+                    const span = refreshIndicator.querySelector('span');
+                    if (span) {
+                        span.textContent = pullDistance >= refreshThreshold ? 'Release to refresh' : 'Pull to refresh';
+                    }
+                }
+            }, { passive: true });
+
+            document.addEventListener('touchend', () => {
+                if (!isPulling) return;
+
+                const pullDistance = pullMoveY - pullStartY;
+
+                if (pullDistance >= refreshThreshold && window.scrollY === 0) {
+                    // Trigger refresh
+                    const icon = refreshIndicator.querySelector('i');
+                    if (icon) {
+                        icon.classList.add('fa-spin');
+                    }
+
+                    const span = refreshIndicator.querySelector('span');
+                    if (span) {
+                        span.textContent = 'Refreshing...';
+                    }
+
+                    // Keep indicator visible during refresh
+                    refreshIndicator.style.top = '0px';
+
+                    // Reload page after short delay
+                    setTimeout(() => {
+                        location.reload();
+                    }, 500);
+                } else {
+                    // Reset indicator
+                    refreshIndicator.style.top = '-80px';
+                    const icon = refreshIndicator.querySelector('i');
+                    if (icon) {
+                        icon.style.transform = 'rotate(0deg)';
+                    }
+                }
+
+                isPulling = false;
+                pullStartY = 0;
+                pullMoveY = 0;
+            }, { passive: true });
+
+            // Add haptic feedback for supported devices
+            function triggerHaptic() {
+                if (navigator.vibrate) {
+                    navigator.vibrate(10);
+                }
+            }
+
+            // Trigger haptic when swipe detected
+            const originalHandleSwipe = handleSwipe;
+            handleSwipe = function (modal) {
+                triggerHaptic();
+                originalHandleSwipe(modal);
+            };
+
+            console.log('✨ Mobile enhancements loaded: Swipe gestures, Lazy loading, Pull-to-refresh');
         });
     </script>
     <script src="masonry.js"></script>
