@@ -403,39 +403,102 @@ body {
     }
 }
 
-/* ====================  THEME TOGGLE BUTTON ==================== */
-#theme-toggle {
-    transition: all 0.3s ease;
+/* ====================  SLIDING THEME TOGGLE SWITCH ==================== */
+.theme-toggle-container {
+    position: fixed;
+    top: 1.5rem;
+    right: 1.5rem;
+    z-index: 999;
 }
 
-#theme-toggle:active {
-    transform: scale(0.95);
+.theme-toggle-checkbox {
+    display: none;
 }
 
-.dark-icon,
-.light-icon {
-    position: absolute;
+.theme-toggle-label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 70px;
+    height: 34px;
+    background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
+    border-radius: 34px;
+    padding: 4px;
+    cursor: pointer;
+    position: relative;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3),
+        inset 0 1px 3px rgba(0, 0, 0, 0.4);
+    border: 2px solid rgba(255, 255, 255, 0.1);
 }
 
-.dark-icon {
-    transform: rotate(0deg) scale(1);
+.theme-toggle-label:hover {
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4),
+        inset 0 1px 3px rgba(0, 0, 0, 0.4);
+    transform: translateY(-1px);
+}
+
+.theme-toggle-label:active {
+    transform: translateY(0);
+}
+
+.theme-icon {
+    width: 26px;
+    height: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    z-index: 2;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    pointer-events: none;
+}
+
+.moon-icon {
+    color: #cbd5e0;
     opacity: 1;
+    transform: scale(1) rotate(0deg);
 }
 
-body.light-mode .dark-icon {
-    transform: rotate(360deg) scale(0);
-    opacity: 0;
+.sun-icon {
+    color: #fbbf24;
+    opacity: 0.5;
+    transform: scale(0.8) rotate(-180deg);
 }
 
-.light-icon {
-    transform: rotate(-360deg) scale(0);
-    opacity: 0;
+.theme-toggle-slider {
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    width: 26px;
+    height: 26px;
+    background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
+    border-radius: 50%;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3),
+        0 1px 4px rgba(0, 0, 0, 0.2);
+    z-index: 3;
 }
 
-body.light-mode .light-icon {
-    transform: rotate(0deg) scale(1);
+/* Checked state (Light mode) */
+.theme-toggle-checkbox:checked+.theme-toggle-label {
+    background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+    border-color: rgba(251, 191, 36, 0.3);
+}
+
+.theme-toggle-checkbox:checked+.theme-toggle-label .theme-toggle-slider {
+    transform: translateX(36px);
+    background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+}
+
+.theme-toggle-checkbox:checked+.theme-toggle-label .moon-icon {
+    opacity: 0.5;
+    transform: scale(0.8) rotate(180deg);
+}
+
+.theme-toggle-checkbox:checked+.theme-toggle-label .sun-icon {
     opacity: 1;
+    transform: scale(1) rotate(0deg);
 }
 
 /* ==================== LIGHT MODE THEME ==================== */
