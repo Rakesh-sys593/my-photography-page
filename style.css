@@ -414,10 +414,6 @@ body {
     gap: 12px;
 }
 
-.theme-toggle-wrapper {
-    position: relative;
-}
-
 .theme-toggle-checkbox {
     display: none;
 }
