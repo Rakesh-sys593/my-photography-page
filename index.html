@@ -2323,6 +2323,33 @@
             });
 
             console.log('🌓 Sliding toggle initialized. Current theme:', currentTheme);
+
+            // ==================== HIDE THEME TOGGLE IN MODALS ====================
+            const themeToggleContainer = document.querySelector('.theme-toggle-container');
+
+            // Function to check if any modal is active
+            function checkModalState() {
+                const hash = window.location.hash;
+                const isModalOpen = hash.startsWith('#photo-');
+
+                if (isModalOpen && themeToggleContainer) {
+                    themeToggleContainer.style.opacity = '0';
+                    themeToggleContainer.style.visibility = 'hidden';
+                    themeToggleContainer.style.pointerEvents = 'none';
+                } else if (themeToggleContainer) {
+                    themeToggleContainer.style.opacity = '1';
+                    themeToggleContainer.style.visibility = 'visible';
+                    themeToggleContainer.style.pointerEvents = 'auto';
+                }
+            }
+
+            // Check on page load
+            checkModalState();
+
+            // Check when hash changes (modal opens/closes)
+            window.addEventListener('hashchange', checkModalState);
+
+            console.log('👁️ Modal detection active - theme toggle will hide in photo view');
         });
     </script>
     <script src="masonry.js"></script>
